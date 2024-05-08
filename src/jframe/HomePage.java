@@ -49,10 +49,10 @@ public class HomePage extends javax.swing.JFrame {
                 .addChild(new DrawerItem("  Home Page").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_Home_26px_2.png"))).build())
                 .space(5)
                 .separator(2, new Color(102, 102, 255))
-                .addChild(new DrawerItem("  GMS Dashboard").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_Library_26px_1.png"))).build())
+                .addChild(new DrawerItem("  GMS Dashboard").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_Building_26px_1.png"))).build())
                 .space(5)
                 .separator(2, new Color(102, 102, 255))
-                .addChild(new DrawerItem("  Manage Games").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_Book_26px.png"))).build())
+                .addChild(new DrawerItem("  Manage Games").build())
                 .space(5)
                 .separator(2, new Color(102, 102, 255))
                 .addChild(new DrawerItem("  Manage Customers").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_Read_Online_26px.png"))).build())
@@ -67,7 +67,7 @@ public class HomePage extends javax.swing.JFrame {
                 .addChild(new DrawerItem("  View Records").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_View_Details_26px.png"))).build())
                 .space(5)
                 .separator(2, new Color(102, 102, 255))
-                .addChild(new DrawerItem("  View Issued Games").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_Books_26px.png"))).build())
+                .addChild(new DrawerItem("  View Issued Games").build())
                 .space(5)
                 .separator(2, new Color(102, 102, 255))
                 .addChild(new DrawerItem("  Defaulter List").icon(new ImageIcon(getClass().getResource("/adminicons/icons8_Conference_26px.png"))).build())
@@ -706,7 +706,6 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
         jLabel17.setText(" 10");
         jPanel15.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
 
