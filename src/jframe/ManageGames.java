@@ -224,6 +224,10 @@ interface ManageGames {
         return false;
     }
     
+    public static void metoda(){
+        
+    }
+    
     
 
 }
