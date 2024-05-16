@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import jframe.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -223,11 +225,44 @@ interface ManageGames {
 
         return false;
     }
-    
-    public static void metoda(){
-        
+
+    public static void metoda() {
+
     }
+
+    /*  test pentru organizarea codului
     
     
+    
+    
+    public static Object[] setIssueGameDetailsToTableO() {
+
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from issue_game_details");
+
+            while (rs.next()) {
+                String issueId = rs.getString("id");
+                String gameName = rs.getString("game_name");
+                String customerName = rs.getString("customer_name");
+                String issueDate = rs.getString("issue_date");
+                String dueDate = rs.getString("due_date");
+                String status = rs.getString("status");
+
+                Object[] obj = {issueId, gameName, customerName, issueDate, dueDate, status};
+
+                return obj;
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+
+    }
+*/
 
 }

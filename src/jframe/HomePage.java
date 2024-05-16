@@ -165,10 +165,16 @@ public class HomePage extends javax.swing.JFrame {
                 })
                 .build();
 
+        sortByDate_panel.setVisible(false);
+        sortByGameId_panel.setVisible(false);
+
+        //DefaultTableModel model;
         setGameDetailsToTable();
         setCustomerDetailsToTable();
         setIssueGameDetailsToTable();
-   
+
+        // model = (DefaultTableModel) tbl_recordIssueDetails.getModel();
+        // model.addRow(ManageGames.setIssueGameDetailsToTableO());
     }
 
     public void showPieChart() {
@@ -407,7 +413,7 @@ public class HomePage extends javax.swing.JFrame {
 
     }
 
-    public void search() {
+    public void searchByDate() {
 
         DefaultTableModel model;
 
@@ -454,6 +460,90 @@ public class HomePage extends javax.swing.JFrame {
 
     }
 
+    public void searchByStatus() {
+
+        DefaultTableModel model;
+
+        String getStatusPending = null;
+        String getStatusReturned = null;
+
+        if (cbx_pending.isSelected()) {
+            getStatusPending = "pending";
+        }
+        if (cbx_returned.isSelected()) {
+            getStatusReturned = "returned";
+        }
+
+        try {
+
+            Connection con = DBConnection.getConnection();
+            String Sql = "select * from issue_game_details where status = ? or status = ?";
+            PreparedStatement pst = con.prepareStatement(Sql);
+
+            pst.setString(1, getStatusPending);
+            pst.setString(2, getStatusReturned);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                String issueId = rs.getString("id");
+                String gameName = rs.getString("game_name");
+                String customerName = rs.getString("customer_name");
+                String issueDate = rs.getString("issue_date");
+                String dueDate = rs.getString("due_date");
+                String status = rs.getString("status");
+
+                Object[] obj = {issueId, gameName, customerName, issueDate, dueDate, status};
+                model = (DefaultTableModel) tbl_recordIssueDetails.getModel();
+
+                model.addRow(obj);
+
+            }
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public void searchByGameId() {
+
+        DefaultTableModel model;
+
+        String gameId = txt_viewRecordsGameId.getText();
+
+        try {
+
+            Connection con = DBConnection.getConnection();
+            String Sql = "select * from issue_game_details where game_id = ?";
+            PreparedStatement pst = con.prepareStatement(Sql);
+
+            pst.setString(1, gameId);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                String issueId = rs.getString("id");
+                String gameName = rs.getString("game_name");
+                String customerName = rs.getString("customer_name");
+                String issueDate = rs.getString("issue_date");
+                String dueDate = rs.getString("due_date");
+                String status = rs.getString("status");
+
+                Object[] obj = {issueId, gameName, customerName, issueDate, dueDate, status};
+                model = (DefaultTableModel) tbl_recordIssueDetails.getModel();
+
+                model.addRow(obj);
+
+            }
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+
     /*
     
     
@@ -484,26 +574,26 @@ public class HomePage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         exitButton_panel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        HomePage_panel = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jPanel16 = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        jPanel17 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_customersDetailsHome = new rojeru_san.complementos.RSTableMetro();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbl_gamesDetailsHome = new rojeru_san.complementos.RSTableMetro();
-        panelPieChart = new javax.swing.JPanel();
+        ViewRecord_panel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbl_recordIssueDetails = new rojeru_san.complementos.RSTableMetro();
+        sortBy_panel = new javax.swing.JPanel();
+        jLabel43 = new javax.swing.JLabel();
+        rSMaterialButtonCircle10 = new rojerusan.RSMaterialButtonCircle();
+        jcbx_sortByViewRecodsPanel = new javax.swing.JComboBox<>();
+        sortByDate_panel = new javax.swing.JPanel();
+        jLabel46 = new javax.swing.JLabel();
+        dchs_recordIssueDate = new rojeru_san.componentes.RSDateChooser();
+        jLabel44 = new javax.swing.JLabel();
+        dchs_recordDueDate = new rojeru_san.componentes.RSDateChooser();
+        rSMaterialButtonCircle12 = new rojerusan.RSMaterialButtonCircle();
+        sortByStatus_panel = new javax.swing.JPanel();
+        jLabel47 = new javax.swing.JLabel();
+        cbx_pending = new javax.swing.JCheckBox();
+        cbx_returned = new javax.swing.JCheckBox();
+        sortByGameId_panel = new javax.swing.JPanel();
+        jLabel48 = new javax.swing.JLabel();
+        txt_viewRecordsGameId = new app.bolivia.swing.JCTextField();
         IssueGame_panel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -535,16 +625,26 @@ public class HomePage extends javax.swing.JFrame {
         issueGameType_label = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         pula = new javax.swing.JLabel();
-        ViewRecord_panel = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tbl_recordIssueDetails = new rojeru_san.complementos.RSTableMetro();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
-        dchs_recordIssueDate = new rojeru_san.componentes.RSDateChooser();
-        dchs_recordDueDate = new rojeru_san.componentes.RSDateChooser();
-        rSMaterialButtonCircle10 = new rojerusan.RSMaterialButtonCircle();
-        rSMaterialButtonCircle11 = new rojerusan.RSMaterialButtonCircle();
+        HomePage_panel = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_customersDetailsHome = new rojeru_san.complementos.RSTableMetro();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbl_gamesDetailsHome = new rojeru_san.complementos.RSTableMetro();
+        panelPieChart = new javax.swing.JPanel();
         ManageCustomers_panel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         txt_customer_id = new app.bolivia.swing.JCTextField();
@@ -697,132 +797,166 @@ public class HomePage extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1910, 70));
 
-        HomePage_panel.setBackground(new java.awt.Color(255, 255, 255));
-        HomePage_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        ViewRecord_panel.setBackground(new java.awt.Color(255, 255, 255));
+        ViewRecord_panel.setForeground(new java.awt.Color(255, 255, 255));
+        ViewRecord_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel15.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(255, 51, 51)));
-        jPanel15.setPreferredSize(new java.awt.Dimension(260, 150));
-        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel17.setText(" 10");
-        jPanel15.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
-
-        HomePage_panel.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 260, 140));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel16.setText("Customers Details");
-        HomePage_panel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 180, -1));
-
-        jLabel19.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel19.setText("No Of Customers");
-        HomePage_panel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, 180, -1));
-
-        jPanel16.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(102, 102, 255)));
-        jPanel16.setPreferredSize(new java.awt.Dimension(260, 150));
-        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel18.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_People_50px.png"))); // NOI18N
-        jLabel18.setText(" 10");
-        jPanel16.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
-
-        HomePage_panel.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 80, -1, 140));
-
-        jPanel17.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(255, 51, 51)));
-        jPanel17.setPreferredSize(new java.awt.Dimension(260, 150));
-        jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel20.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Sell_50px.png"))); // NOI18N
-        jLabel20.setText(" 10");
-        jPanel17.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
-
-        HomePage_panel.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 80, 260, 140));
-
-        jLabel21.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel21.setText("Issued Games");
-        HomePage_panel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 40, 180, -1));
-
-        jPanel18.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(102, 102, 255)));
-        jPanel18.setPreferredSize(new java.awt.Dimension(260, 150));
-        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel22.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_List_of_Thumbnails_50px.png"))); // NOI18N
-        jLabel22.setText(" 10");
-        jPanel18.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
-
-        HomePage_panel.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 80, 260, 140));
-
-        jLabel23.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel23.setText("Defaulter List");
-        HomePage_panel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 40, 180, -1));
-
-        tbl_customersDetailsHome.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_recordIssueDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Customer Id", "Name", "Prenume", "Contact"
+                "Issue Id", "Game Name", "Customer Name", "Issue Date", "Due Date", "Status"
             }
         ));
-        tbl_customersDetailsHome.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
-        tbl_customersDetailsHome.setColorBordeFilas(new java.awt.Color(102, 102, 255));
-        tbl_customersDetailsHome.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        tbl_customersDetailsHome.setColorSelBackgound(new java.awt.Color(255, 51, 51));
-        tbl_customersDetailsHome.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 25)); // NOI18N
-        tbl_customersDetailsHome.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        tbl_customersDetailsHome.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        tbl_customersDetailsHome.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        tbl_customersDetailsHome.setRowHeight(40);
-        jScrollPane1.setViewportView(tbl_customersDetailsHome);
+        tbl_recordIssueDetails.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
+        tbl_recordIssueDetails.setColorBordeFilas(new java.awt.Color(102, 102, 255));
+        tbl_recordIssueDetails.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
+        tbl_recordIssueDetails.setColorSelBackgound(new java.awt.Color(255, 51, 51));
+        tbl_recordIssueDetails.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 25)); // NOI18N
+        tbl_recordIssueDetails.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        tbl_recordIssueDetails.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        tbl_recordIssueDetails.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
+        tbl_recordIssueDetails.setRowHeight(40);
+        jScrollPane3.setViewportView(tbl_recordIssueDetails);
 
-        HomePage_panel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, 700, 220));
+        ViewRecord_panel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 1010, 810));
 
-        jLabel24.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
-        jLabel24.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel24.setText("No Of Games");
-        HomePage_panel.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 180, -1));
+        sortBy_panel.setBackground(new java.awt.Color(102, 102, 255));
+        sortBy_panel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        sortBy_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel25.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel25.setText("Games Details");
-        HomePage_panel.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 620, 180, -1));
+        jLabel43.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel43.setText("Sort by:");
+        sortBy_panel.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 140, 50));
 
-        tbl_gamesDetailsHome.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Game Id", "Name", "Type", "Quantity"
+        rSMaterialButtonCircle10.setBackground(new java.awt.Color(255, 51, 51));
+        rSMaterialButtonCircle10.setText("search");
+        rSMaterialButtonCircle10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rSMaterialButtonCircle10MouseClicked(evt);
             }
-        ));
-        tbl_gamesDetailsHome.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
-        tbl_gamesDetailsHome.setColorBordeFilas(new java.awt.Color(102, 102, 255));
-        tbl_gamesDetailsHome.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        tbl_gamesDetailsHome.setColorSelBackgound(new java.awt.Color(255, 51, 51));
-        tbl_gamesDetailsHome.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 25)); // NOI18N
-        tbl_gamesDetailsHome.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        tbl_gamesDetailsHome.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        tbl_gamesDetailsHome.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        tbl_gamesDetailsHome.setRowHeight(40);
-        jScrollPane2.setViewportView(tbl_gamesDetailsHome);
+        });
+        rSMaterialButtonCircle10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonCircle10ActionPerformed(evt);
+            }
+        });
+        sortBy_panel.add(rSMaterialButtonCircle10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 430, 270, 60));
 
-        HomePage_panel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 660, 700, 220));
+        jcbx_sortByViewRecodsPanel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Time Interval", "Game ID" }));
+        jcbx_sortByViewRecodsPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbx_sortByViewRecodsPanelActionPerformed(evt);
+            }
+        });
+        sortBy_panel.add(jcbx_sortByViewRecodsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 270, 50));
 
-        panelPieChart.setLayout(new java.awt.BorderLayout());
-        HomePage_panel.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 290, 690, 590));
+        sortByDate_panel.setBackground(new java.awt.Color(102, 102, 255));
+        sortByDate_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        getContentPane().add(HomePage_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1910, 960));
+        jLabel46.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel46.setText("Issue Date:");
+        sortByDate_panel.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 140, 50));
+
+        dchs_recordIssueDate.setForeground(new java.awt.Color(255, 255, 255));
+        dchs_recordIssueDate.setColorBackground(new java.awt.Color(255, 51, 51));
+        dchs_recordIssueDate.setColorForeground(new java.awt.Color(255, 51, 51));
+        dchs_recordIssueDate.setPlaceholder("Select Issue Date...");
+        sortByDate_panel.add(dchs_recordIssueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 220, -1));
+
+        jLabel44.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel44.setText("Due Date:");
+        sortByDate_panel.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 140, 50));
+
+        dchs_recordDueDate.setForeground(new java.awt.Color(255, 255, 255));
+        dchs_recordDueDate.setColorBackground(new java.awt.Color(255, 51, 51));
+        dchs_recordDueDate.setColorForeground(new java.awt.Color(255, 51, 51));
+        dchs_recordDueDate.setPlaceholder("Select Due Date...");
+        sortByDate_panel.add(dchs_recordDueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 220, -1));
+
+        sortBy_panel.add(sortByDate_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 410, 170));
+
+        rSMaterialButtonCircle12.setBackground(new java.awt.Color(255, 51, 51));
+        rSMaterialButtonCircle12.setText("all");
+        rSMaterialButtonCircle12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rSMaterialButtonCircle12MouseClicked(evt);
+            }
+        });
+        rSMaterialButtonCircle12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonCircle12ActionPerformed(evt);
+            }
+        });
+        sortBy_panel.add(rSMaterialButtonCircle12, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 540, 270, 60));
+
+        sortByStatus_panel.setBackground(new java.awt.Color(102, 102, 255));
+        sortByStatus_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel47.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel47.setText("Status:");
+        sortByStatus_panel.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 140, 50));
+
+        cbx_pending.setText("pending");
+        sortByStatus_panel.add(cbx_pending, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, 90, 40));
+
+        cbx_returned.setText("returned");
+        cbx_returned.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_returnedActionPerformed(evt);
+            }
+        });
+        sortByStatus_panel.add(cbx_returned, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 110, 40));
+
+        sortBy_panel.add(sortByStatus_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 380, 190));
+
+        sortByGameId_panel.setBackground(new java.awt.Color(102, 102, 255));
+        sortByGameId_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel48.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel48.setText("Game ID:");
+        sortByGameId_panel.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 140, 50));
+
+        txt_viewRecordsGameId.setBackground(new java.awt.Color(102, 102, 255));
+        txt_viewRecordsGameId.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 51, 51)));
+        txt_viewRecordsGameId.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_viewRecordsGameId.setPlaceholder("Enter Game Id...");
+        txt_viewRecordsGameId.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                txt_viewRecordsGameIdComponentAdded(evt);
+            }
+        });
+        txt_viewRecordsGameId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_viewRecordsGameIdFocusLost(evt);
+            }
+        });
+        txt_viewRecordsGameId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txt_viewRecordsGameIdMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txt_viewRecordsGameIdMouseExited(evt);
+            }
+        });
+        txt_viewRecordsGameId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_viewRecordsGameIdActionPerformed(evt);
+            }
+        });
+        sortByGameId_panel.add(txt_viewRecordsGameId, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 220, -1));
+
+        sortBy_panel.add(sortByGameId_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 440, 200));
+
+        ViewRecord_panel.add(sortBy_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 520, 800));
+
+        getContentPane().add(ViewRecord_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1910, 960));
 
         IssueGame_panel.setBackground(new java.awt.Color(255, 255, 255));
         IssueGame_panel.setForeground(new java.awt.Color(255, 255, 255));
@@ -1036,88 +1170,132 @@ public class HomePage extends javax.swing.JFrame {
 
         getContentPane().add(IssueGame_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1910, 960));
 
-        ViewRecord_panel.setBackground(new java.awt.Color(255, 255, 255));
-        ViewRecord_panel.setForeground(new java.awt.Color(255, 255, 255));
-        ViewRecord_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        HomePage_panel.setBackground(new java.awt.Color(255, 255, 255));
+        HomePage_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tbl_recordIssueDetails.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel15.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(255, 51, 51)));
+        jPanel15.setPreferredSize(new java.awt.Dimension(260, 150));
+        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel17.setText(" 10");
+        jPanel15.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
+
+        HomePage_panel.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 260, 140));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel16.setText("Customers Details");
+        HomePage_panel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 180, -1));
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel19.setText("No Of Customers");
+        HomePage_panel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, 180, -1));
+
+        jPanel16.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(102, 102, 255)));
+        jPanel16.setPreferredSize(new java.awt.Dimension(260, 150));
+        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_People_50px.png"))); // NOI18N
+        jLabel18.setText(" 10");
+        jPanel16.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
+
+        HomePage_panel.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 80, -1, 140));
+
+        jPanel17.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(255, 51, 51)));
+        jPanel17.setPreferredSize(new java.awt.Dimension(260, 150));
+        jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Sell_50px.png"))); // NOI18N
+        jLabel20.setText(" 10");
+        jPanel17.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
+
+        HomePage_panel.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 80, 260, 140));
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel21.setText("Issued Games");
+        HomePage_panel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 40, 180, -1));
+
+        jPanel18.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(102, 102, 255)));
+        jPanel18.setPreferredSize(new java.awt.Dimension(260, 150));
+        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel22.setFont(new java.awt.Font("Segoe UI Black", 0, 50)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_List_of_Thumbnails_50px.png"))); // NOI18N
+        jLabel22.setText(" 10");
+        jPanel18.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, -1));
+
+        HomePage_panel.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 80, 260, 140));
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel23.setText("Defaulter List");
+        HomePage_panel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 40, 180, -1));
+
+        tbl_customersDetailsHome.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Issue Id", "Game Name", "Customer Name", "Issue Date", "Due Date", "Status"
+                "Customer Id", "Name", "Prenume", "Contact"
             }
         ));
-        tbl_recordIssueDetails.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
-        tbl_recordIssueDetails.setColorBordeFilas(new java.awt.Color(102, 102, 255));
-        tbl_recordIssueDetails.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        tbl_recordIssueDetails.setColorSelBackgound(new java.awt.Color(255, 51, 51));
-        tbl_recordIssueDetails.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 25)); // NOI18N
-        tbl_recordIssueDetails.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        tbl_recordIssueDetails.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        tbl_recordIssueDetails.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        tbl_recordIssueDetails.setRowHeight(40);
-        jScrollPane3.setViewportView(tbl_recordIssueDetails);
+        tbl_customersDetailsHome.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
+        tbl_customersDetailsHome.setColorBordeFilas(new java.awt.Color(102, 102, 255));
+        tbl_customersDetailsHome.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
+        tbl_customersDetailsHome.setColorSelBackgound(new java.awt.Color(255, 51, 51));
+        tbl_customersDetailsHome.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 25)); // NOI18N
+        tbl_customersDetailsHome.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        tbl_customersDetailsHome.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        tbl_customersDetailsHome.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
+        tbl_customersDetailsHome.setRowHeight(40);
+        jScrollPane1.setViewportView(tbl_customersDetailsHome);
 
-        ViewRecord_panel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 1010, 810));
+        HomePage_panel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, 700, 220));
 
-        jPanel9.setBackground(new java.awt.Color(102, 102, 255));
-        jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLabel24.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel24.setText("No Of Games");
+        HomePage_panel.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 180, -1));
 
-        jLabel43.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
-        jLabel43.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel43.setText("Issue Date:");
-        jPanel9.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 140, 50));
+        jLabel25.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel25.setText("Games Details");
+        HomePage_panel.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 620, 180, -1));
 
-        jLabel44.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
-        jLabel44.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel44.setText("Due Date:");
-        jPanel9.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 140, 50));
+        tbl_gamesDetailsHome.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        dchs_recordIssueDate.setForeground(new java.awt.Color(255, 255, 255));
-        dchs_recordIssueDate.setColorBackground(new java.awt.Color(255, 51, 51));
-        dchs_recordIssueDate.setColorForeground(new java.awt.Color(255, 51, 51));
-        dchs_recordIssueDate.setPlaceholder("Select Issue Date...");
-        jPanel9.add(dchs_recordIssueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 220, -1));
-
-        dchs_recordDueDate.setForeground(new java.awt.Color(255, 255, 255));
-        dchs_recordDueDate.setColorBackground(new java.awt.Color(255, 51, 51));
-        dchs_recordDueDate.setColorForeground(new java.awt.Color(255, 51, 51));
-        dchs_recordDueDate.setPlaceholder("Select Due Date...");
-        jPanel9.add(dchs_recordDueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 220, -1));
-
-        rSMaterialButtonCircle10.setBackground(new java.awt.Color(255, 51, 51));
-        rSMaterialButtonCircle10.setText("search");
-        rSMaterialButtonCircle10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rSMaterialButtonCircle10MouseClicked(evt);
+            },
+            new String [] {
+                "Game Id", "Name", "Type", "Quantity"
             }
-        });
-        rSMaterialButtonCircle10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonCircle10ActionPerformed(evt);
-            }
-        });
-        jPanel9.add(rSMaterialButtonCircle10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 410, 270, 60));
+        ));
+        tbl_gamesDetailsHome.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
+        tbl_gamesDetailsHome.setColorBordeFilas(new java.awt.Color(102, 102, 255));
+        tbl_gamesDetailsHome.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
+        tbl_gamesDetailsHome.setColorSelBackgound(new java.awt.Color(255, 51, 51));
+        tbl_gamesDetailsHome.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 25)); // NOI18N
+        tbl_gamesDetailsHome.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        tbl_gamesDetailsHome.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        tbl_gamesDetailsHome.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
+        tbl_gamesDetailsHome.setRowHeight(40);
+        jScrollPane2.setViewportView(tbl_gamesDetailsHome);
 
-        rSMaterialButtonCircle11.setBackground(new java.awt.Color(255, 51, 51));
-        rSMaterialButtonCircle11.setText("all");
-        rSMaterialButtonCircle11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rSMaterialButtonCircle11MouseClicked(evt);
-            }
-        });
-        rSMaterialButtonCircle11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonCircle11ActionPerformed(evt);
-            }
-        });
-        jPanel9.add(rSMaterialButtonCircle11, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 500, 270, 60));
+        HomePage_panel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 660, 700, 220));
 
-        ViewRecord_panel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 520, 800));
+        panelPieChart.setLayout(new java.awt.BorderLayout());
+        HomePage_panel.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 290, 690, 590));
 
-        getContentPane().add(ViewRecord_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1910, 960));
+        getContentPane().add(HomePage_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1910, 960));
 
         ManageCustomers_panel.setBackground(new java.awt.Color(255, 255, 255));
         ManageCustomers_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2226,21 +2404,67 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_rSMaterialButtonCircle10MouseClicked
 
     private void rSMaterialButtonCircle10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle10ActionPerformed
-        if (dchs_recordIssueDate.getDatoFecha() != null && dchs_recordDueDate.getDatoFecha() != null) {
+        if (dchs_recordIssueDate.getDatoFecha() != null && dchs_recordDueDate.getDatoFecha() != null && sortByDate_panel.isVisible()) {
             clearIssueGameDetailsTable();
-            search();
+            searchByDate();
+        } else if (sortByStatus_panel.isVisible() && cbx_pending.isSelected() || cbx_returned.isSelected()) {
+            clearIssueGameDetailsTable();
+            searchByStatus();
+        } else if (sortByGameId_panel.isVisible() && !txt_viewRecordsGameId.getText().equals(""))  {
+            clearIssueGameDetailsTable();
+            searchByGameId();
         }
 
     }//GEN-LAST:event_rSMaterialButtonCircle10ActionPerformed
 
-    private void rSMaterialButtonCircle11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle11MouseClicked
+    private void cbx_returnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_returnedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rSMaterialButtonCircle11MouseClicked
+    }//GEN-LAST:event_cbx_returnedActionPerformed
 
-    private void rSMaterialButtonCircle11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle11ActionPerformed
+    private void rSMaterialButtonCircle12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle12MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rSMaterialButtonCircle12MouseClicked
+
+    private void rSMaterialButtonCircle12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle12ActionPerformed
         clearIssueGameDetailsTable();
         setIssueGameDetailsToTable();
-    }//GEN-LAST:event_rSMaterialButtonCircle11ActionPerformed
+    }//GEN-LAST:event_rSMaterialButtonCircle12ActionPerformed
+
+    private void jcbx_sortByViewRecodsPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbx_sortByViewRecodsPanelActionPerformed
+        int selectedStatus = jcbx_sortByViewRecodsPanel.getSelectedIndex();
+        sortByStatus_panel.setVisible(false);
+        sortByDate_panel.setVisible(false);
+        sortByGameId_panel.setVisible(false);
+        if (selectedStatus == 0) {
+            sortByStatus_panel.setVisible(true);
+        } else if (selectedStatus == 1) {
+            sortByDate_panel.setVisible(true);
+        } else if (selectedStatus == 2) {
+            sortByGameId_panel.setVisible(true);
+        }
+
+
+    }//GEN-LAST:event_jcbx_sortByViewRecodsPanelActionPerformed
+
+    private void txt_viewRecordsGameIdComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_txt_viewRecordsGameIdComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_viewRecordsGameIdComponentAdded
+
+    private void txt_viewRecordsGameIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_viewRecordsGameIdFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_viewRecordsGameIdFocusLost
+
+    private void txt_viewRecordsGameIdMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_viewRecordsGameIdMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_viewRecordsGameIdMouseEntered
+
+    private void txt_viewRecordsGameIdMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_viewRecordsGameIdMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_viewRecordsGameIdMouseExited
+
+    private void txt_viewRecordsGameIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_viewRecordsGameIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_viewRecordsGameIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2284,6 +2508,8 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel ManageGames_panel;
     private javax.swing.JPanel ReturnGame_panel;
     private javax.swing.JPanel ViewRecord_panel;
+    private javax.swing.JCheckBox cbx_pending;
+    private javax.swing.JCheckBox cbx_returned;
     private rojeru_san.componentes.RSDateChooser dchs_dueDate;
     private rojeru_san.componentes.RSDateChooser dchs_issueDate;
     private rojeru_san.componentes.RSDateChooser dchs_recordDueDate;
@@ -2345,6 +2571,9 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2362,12 +2591,12 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JComboBox<String> jcbx_sortByViewRecodsPanel;
     private javax.swing.JLabel lbl_returnCustomerName;
     private javax.swing.JLabel lbl_returnDueDate;
     private javax.swing.JLabel lbl_returnGameName;
@@ -2379,7 +2608,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel pula;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle10;
-    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle11;
+    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle12;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle2;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle3;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle4;
@@ -2388,6 +2617,10 @@ public class HomePage extends javax.swing.JFrame {
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle7;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle8;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle9;
+    private javax.swing.JPanel sortByDate_panel;
+    private javax.swing.JPanel sortByGameId_panel;
+    private javax.swing.JPanel sortByStatus_panel;
+    private javax.swing.JPanel sortBy_panel;
     private rojeru_san.complementos.RSTableMetro tbl_customersDetails;
     private rojeru_san.complementos.RSTableMetro tbl_customersDetailsHome;
     private rojeru_san.complementos.RSTableMetro tbl_gamesDetails;
@@ -2405,5 +2638,6 @@ public class HomePage extends javax.swing.JFrame {
     private app.bolivia.swing.JCTextField txt_issueGameId;
     private app.bolivia.swing.JCTextField txt_returnCustomerId;
     private app.bolivia.swing.JCTextField txt_returnGameId;
+    private app.bolivia.swing.JCTextField txt_viewRecordsGameId;
     // End of variables declaration//GEN-END:variables
 }
